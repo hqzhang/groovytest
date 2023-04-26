@@ -1,6 +1,7 @@
 
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.DumperOptions
+
 String buildScript(List values){
     def ret=values.collect { '"'+it+'"' }
     return "return ${ret}"
@@ -32,9 +33,13 @@ def getEnvar(){
     env.REPO=repo
     env.BRCH=brch
 }
+@groovy.transform.Field
+def url="https://raw.githubusercontent.com/hqzhang"
+@groovy.transform.Field
+def urlext=""
 
 def getFileContent(String SolutionDetail,String wksp ){
-    def url="https://raw.githubusercontent.com/hqzhang/ansibletest"
+    def url="${url}/ansibletest"
     def mf ="ls ${wksp}/releases  ".execute().text
     def myls = mf.readLines().collect{ it.split()[0].minus('.xml')}
     def map=[:]
@@ -48,8 +53,7 @@ def getFileContent(String SolutionDetail,String wksp ){
 }
 
 def getContent(String refvar ,String wksp, String repo ,String brch){
-   def url="https://raw.githubusercontent.com/hqzhang"
-   def urlext=""
+   
    return """def wksp=\"${wksp}\"
       |def url=\"${url}\"
       |def urlext=\"${urlext}\"
