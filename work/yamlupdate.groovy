@@ -167,9 +167,10 @@ def writeYamlFile(output,data){
     yaml.dump(data, new FileWriter(output)) 
 }
 
- def struct=readYamlFile('configuration.yml')
- writeYamlFile('configuration_out.yml',struct)
-   
+ //ef struct=readYamlFile('configuration.yml')
+ //writeYamlFile('configuration_out.yml',struct)
+ json={'name': 'hong','age': 18}
+    prntln new JsonSlurper().parseText(json)
 
    
    
