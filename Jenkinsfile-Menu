@@ -45,7 +45,7 @@ properties([
              
 ])
 ])
-println "begin pipeline"
+println "begin pipeline///"
 def map
 def list
 pipeline {
@@ -87,6 +87,13 @@ pipeline {
 
                     //menu.writeYamlFile("releases/${filebackup}",read)
                     sh "cat releases/${filebackup}"
+                    def nums=[1414 285]
+                    def anth=nums.join(' ')
+                    println "anth=$anth"
+                    sh """
+                        export nums=$anth"
+                        ./run
+                    """
                    
                     
                     

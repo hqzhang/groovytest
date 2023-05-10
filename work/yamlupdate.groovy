@@ -2,6 +2,8 @@
 import groovy.yaml.YamlSlurper
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.DumperOptions
+import groovy.json.JsonSlurper
+
 println "Hello world"
 
 def parseConfig(String fileName){
@@ -169,8 +171,8 @@ def writeYamlFile(output,data){
 
  //ef struct=readYamlFile('configuration.yml')
  //writeYamlFile('configuration_out.yml',struct)
- json={'name': 'hong','age': 18}
-    prntln new JsonSlurper().parseText(json)
+ json='{"name": "hong","age": 18}'
+    println new JsonSlurper().parseText(json)
 
    
    
