@@ -1,3 +1,4 @@
+@Grab('org.yaml:snakeyaml:1.28')
 import org.yaml.snakeyaml.Yaml
 
 def input = '''components:
@@ -8,6 +9,8 @@ def input = '''components:
       username: hongqi
       password: nopass'''
 
-def parsed = new Yaml().load(input)
-println(parsed.dump())
-  
+def yaml = new Yaml()
+def data = yaml.load(input)
+print data
+println data.components[0].name
+println data.components[0].settings.username

@@ -171,8 +171,12 @@ def writeYamlFile(output,data){
 
  //ef struct=readYamlFile('configuration.yml')
  //writeYamlFile('configuration_out.yml',struct)
- json='{"name": "hong","age": 18}'
-    println new JsonSlurper().parseText(json)
+ data=[name: "hong",age: "18"]
+
+DumperOptions options = new DumperOptions()
+    //options.setPrettyFlow(true)
+    //options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK)
+    println new Yaml(options).dump(data) 
 
    
    
