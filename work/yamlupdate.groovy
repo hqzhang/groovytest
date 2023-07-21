@@ -178,6 +178,72 @@ DumperOptions options = new DumperOptions()
     //options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK)
     println new Yaml(options).dump(data) 
 
-   
-   
+def getFile(String mypath,String type, String dft){
+  println("enter test()")
+  def dft1='myfile'
+def out="ssh root@192.168.0.16 ls /root/workspace/myscripts/*.tar.gz".execute().text
+out=out.readLines().collect{ it.split("/")[-1] }
+out.eachWithIndex{ it, id-> 
+if ( it.contains(dft1) ){ index=id } }
+out.add(0, out.remove(index))
+return out
+}
+def getFileScript(String mypath,String type, String dft){
+  return """def dft1='myfile'
+  |def out="ssh root@192.168.0.16 ls /root/workspace/myscripts/*.tar.gz".execute().text
+  |out=out.readLines().collect{ it.split("/")[-1] }
+  |out.eachWithIndex{ it, id-> 
+  |if ( it.contains(dft1) ){ index=id } }
+  |out.add(0, out.remove(index))
+  |return out
+  |""".stripMargin()
+}
+@groovy.transform.Field
+def envList=['DEV','BAT']
+@groovy.transform.Field
+def serversList=['DEV': ['APP': ['s1','ss22','ss33'] ],
+              'BAT': ['APP': ['s3','s55'] ] ]
+@groovy.transform.Field
+def defaultList=['ss', 's55', 's23']
+
+String buildDefault(List out,String key){
+   def tmp=[]
+   out.eachWithIndex{ it,id-> 
+   if(it.contains(key)){ tmp.add(0, '"'+it+'"') } else { tmp.add('"'+it+'"') } }
+   return tmp
+}         
+String getServersScript(String refvar){
+    def map=[:]
+    envList.eachWithIndex{ it,index->
+       map[it]=buildDefault(serversList[it]['APP'],defaultList[index])
+    }
+    return """def map=${map}
+    |return map[${refvar}]
+    |""".stripMargin()
+}
+def getFile(String wksp, String dft){
+    println("enter getFile(), $wksp")
+    def tmp=[]
+    def out="ls ${wksp}/release  ".execute().text
+    println "out=$out"
+    out=out.readLines().collect{  it.split("\\.")[0] } 
+     println "out=$out"
+    out.each{ if( it.contains(dft) ){ tmp.add(0,it) } else { tmp.add(it) } }
+    return tmp
+}  
+def wksp="/Users/hongqizhang/workspace/wavecloud/groovytest"  
+
+def greet(String name,  String greeting="") {
+    def flag=''
+    if ( !greeting?.trim() ) { println " EMPTY"  } else { println "NOT EMPT"}
+    if ( greeting == "")  { println " EMPTYYYYYY"  } else { println "NOT EMPTYYYYY"}
+    return "$greeting, $name!"
+}
+
+
+println greet("Hongq","zhang")
+// Calling the method with only one argument (uses default value for greeting)
+println greet("Alice") // Output: Hello, Alice!
+
+// Calling the method without any arguments (uses default values for both name and greeting)
 
