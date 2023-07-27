@@ -220,52 +220,22 @@ def updateAll(String src, String workspace, String repo, String workbr, String m
     def src='/tmp/CI.yml'
    // def project="GRP"
     def workspace='wave-cloud'
-    def repo="upload-test"
+    def repo="groovytest"
     def repoPR="https://api.bitbucket.org/2.0/repositories/$workspace/$repo/pullrequests"
+        repoPR="https://api.bitbucket.org/2.0/repositories/$workspace/$repo/src/master/releases"
     def fileName='CI.yml'
-createPR(workbr, mergebr,workspace, repo)
-//println updateAll(src, workspace, repo, workbr, mergebr, directory)//println uploadFile('README.md', workbr)
-/*def proc = "ls -al".execute()
-proc.waitFor()
-println proc.in.text
-println  proc.err.text 
-println proc.exitValue()*/ 
-def mycheck() {
-    def mylist="aa bb"
-   
-    def flag="tt"
-    def timeout=25*1000
-    def len=timeout/5000
-    
-    for( int i; i<len; i++ ){
-      int ii=i*5
-      println("wait time:"+ii.toString())
-      Thread.sleep(5000)
-      int pass=1
-      for( var in mylist.split()) {
-            println "var =$var"
-            if ( flag == 'tt' ){
-                println "check $var success"
-                pass *=1
-                continue;
-            }else {
-                println "wait to check $var again" 
-                pass *=0
-            }
-       }
-       if ( pass == 1){
-           println "Check  SUCCESS"
-           return
-       }
+
+def getPP(String repo, String folder){
+    def repoPR="https://api.bitbucket.org/2.0/repositories/$repo/src/master/releases"
+    def ret=[]
+    def cmd="curl --request GET ${repoPR}  "
+    def out=exeCmd(cmd)
+  
+    def json=new JsonSlurper()
+    def obj=json.parseText(out)
+  
+    obj['values'].each { ret.add(it['path'])}
+    return ret
     }
-    println "Check FAILURE"
-}
-fileName="test.xml"
 
-
-sdf = new SimpleDateFormat("yyyy-MM-dd")
-println sdf.format(new Date())
-
-
-//println getPrid(repoPR)
-//println createPR(repoPR)//
+println getPP("wave-cloud/groovytest","releases")
