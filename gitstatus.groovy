@@ -225,11 +225,12 @@ def updateAll(String src, String workspace, String repo, String workbr, String m
         repoPR="https://api.bitbucket.org/2.0/repositories/$workspace/$repo/src/master/releases"
     def fileName='CI.yml'
 
-def getPP(String repo, String folder){
+def getFileBit(String repo, String folder){
     def repoPR="https://api.bitbucket.org/2.0/repositories/$repo/src/master/releases"
     def ret=[]
-    def cmd="curl --request GET ${repoPR}  "
-    def out=exeCmd(cmd)
+    def cmd="curl -u $USERNAME:$PASSWORD --request GET ${repoPR}  "
+    //def cmd="curl --request GET ${repoPR}  "
+    def out=cmd.execute().text
   
     def json=new JsonSlurper()
     def obj=json.parseText(out)
@@ -238,4 +239,4 @@ def getPP(String repo, String folder){
     return ret
     }
 
-println getPP("wave-cloud/groovytest","releases")
+println getFileBit("wave-cloud/groovytest","releases")
