@@ -29,4 +29,4 @@ Types.each {k,v->
    println( k+':'+v)
 }
 def firstKey= Names.iterator().next().getKey()
-println firstKey
+println Names.keySet().join(",") 
