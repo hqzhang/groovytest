@@ -34,4 +34,23 @@ lines.each { line ->
 
 // Print the nameTypeMap and typeValueMap
 println "[$nameTypeMap] and [$typeValueMap]"
+ipeline{
+    agent any
+    stages{
+        stage('init') {
+            steps{
+                script{
+                    echo "params=$params"
+                     withFileParameter('FILE') {
+                    sh """
+                        echo "upload:$FILE_FILENAME"
+                        cp $FILE $FILE_FILENAME
+                        scp -i ~/.ssh/id_rsa $FILE_FILENAME root@192.168.0.55:~/workspace
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
 
