@@ -1,4 +1,8 @@
 ```
+wget https://nodejs.org/dist/v17.9.1/node-v17.9.1-linux-x64.tar.gz
+tar -xzvf node-v17.9.1-linux-x64.tar.gz
+npm install -g npm-groovy-lint
+
 hello world
 def inputString = """Name:abc
 Type:p11
